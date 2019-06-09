@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>blob: plot densities directly in your browser</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/bulma-checkradio.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.105.1/build/three.min.js"></script>
+    <script src="js/three/OrbitControls.js"></script>
+
+    <script src="js/threex/THREEx.KeyboardState.js"></script>
+    <script src="js/threex/THREEx.FullScreen.js"></script>
+    <script src="js/threex/THREEx.WindowResize.js"></script>
+    <script src="js/threex/MarchingCubesData.js"></script>
+
+    <script src="js/mesh.js"></script>
+    <script src="js/parse.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div id="app" v-cloak>
+        <div class="container">
+
+          <p>
+            <strong>blob</strong>: plot densities directly in your browser.
+            The <a href="https://github.com/densities/blob">source code</a> is licensed under
+            <a href="https://github.com/densities/blob/blob/gh-pages/LICENSE">AGPL</a>.
+            Contributions to this project are welcome.
+          </p>
+
+          <div class="columns">
+
+            <div class="column is-2">
+              <div class="file">
+                <label class="file-label">
+                  <input class="file-input" type="file" @change="load_text_file">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      cube file
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div class="column is-1" v-if="data_is_loaded">
+              <div class="field">
+                <input class="is-checkradio" id="axes_checkbox" type="checkbox" name="axes_checkbox" checked="checked" v-model="show_axes">
+                <label for="axes_checkbox">axes</label>
+              </div>
+            </div>
+
+            <div class="column is-1" v-if="data_is_loaded">
+              <div class="field">
+                <input class="is-checkradio" id="centers_checkbox" type="checkbox" name="centers_checkbox" checked="checked" v-model="show_centers">
+                <label for="centers_checkbox">centers</label>
+              </div>
+            </div>
+
+            <div class="column is-1" v-if="data_is_loaded">
+              <div class="field">
+                <input class="input is-small" id="isovalue" type="text" placeholder="isovalue" v-model="isovalue">
+                <label for="isovalue">isovalue</label>
+              </div>
+            </div>
+
+            <div class="column is-1" v-if="data_is_loaded">
+              <div class="field">
+                <input class="input is-small" id="opacity" type="text" placeholder="opacity" v-model="opacity">
+                <label for="opacity">opacity</label>
+              </div>
+            </div>
+
+            <div class="column is-1" v-if="data_is_loaded">
+              <div class="field">
+                <input class="input is-small" id="color" type="text" placeholder="color" v-model="color">
+                <label for="color">color</label>
+              </div>
+            </div>
+
+          </div>
+
+          <div v-if="message_info.length > 0" class="notification is-primary top-buffer">
+            {{ message_info }}
+          </div>
+
+          <div v-if="message_error.length > 0" class="notification is-danger top-buffer">
+            {{ message_error }}
+          </div>
+
+          <script src="js/app.js"></script>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
