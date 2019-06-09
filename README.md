@@ -20,6 +20,12 @@
 - Visit https://densities.github.io/blob/ and try it out.
 
 
+## Status of this project
+
+- At this point only proof-of-concept
+- Function interfaces are not stable and will change
+
+
 ## How you can contribute
 
 Please [suggest ideas](https://github.com/densities/blob/issues) and
