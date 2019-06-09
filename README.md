@@ -22,8 +22,9 @@
 
 ## Status of this project
 
-- At this point only proof-of-concept
-- Function interfaces are not stable and will change
+- At this point only proof-of-concept.
+- Function interfaces are not stable and will change.
+- Right now only understands Gaussian cube file format but later we can add support for other formats.
 
 
 ## How you can contribute
