@@ -197,7 +197,7 @@
 
             <div class="col-md-1" v-if="data_is_loaded">
               <div class="form-group">
-                <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="opacity" v-model="opacity">
+                <input class="range-field" type="range" min="0.0" max="1.0" step="0.05" id="opacity" v-model="opacity">
                 <label class="col-form-label col-form-label-sm" for="opacity">opacity</label>
               </div>
             </div>
