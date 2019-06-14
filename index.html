@@ -35,13 +35,65 @@
         <div class="container">
 
           <div class="row">
-            <p>
-              <strong>blob</strong>: plot densities directly in your browser.
-              The <a href="https://github.com/densities/blob">source code</a> is licensed under
-              <a href="https://github.com/densities/blob/blob/gh-pages/LICENSE">AGPL</a>.
-              Contributions to this project are welcome.
-            </p>
+            <div class="col-md-12">
+              <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#my_navbar"
+                        aria-controls="my_navbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="my_navbar">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                      <a class="nav-link" href="https://github.com/densities/blob" target="_blank">Sources</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="modal" href="#modal_privacy">Privacy</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
           </div>
+
+          <!-- privacy -->
+          <div class="modal fade" id="modal_privacy" tabindex="-1" role="dialog" aria-labelledby="modal_label_privacy" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modal_label_privacy">Privacy</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    This app does not upload any data. The web server sends a static HTML and JavaScript
+                    website to your browser, and from that moment on, there is no communication between
+                    the browser and the web server.
+                  </p>
+                  <p>
+                    The data and plots stay between you and the browser: they are only kept in memory client-side.
+                    No data is sent to any place outside of your computer. In other words the web server
+                    has no way of knowing what you are plotting.
+                  </p>
+                  <p>
+                    If you are unsure about this, you can audit the
+                    <a href="https://github.com/densities/blob" target="_blank">source code</a>.
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end privacy -->
 
           <div class="row">
 
