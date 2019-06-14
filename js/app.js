@@ -97,7 +97,7 @@ var app = new Vue({
 
                     var geometry = new THREE.SphereGeometry(0.05, 32, 32);
                     var material = new THREE.MeshBasicMaterial({
-                        color: 0xffff00
+                        color: 0x000000
                     });
 
                     vm.centers = new THREE.Group();
