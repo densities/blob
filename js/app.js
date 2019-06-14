@@ -54,7 +54,10 @@ var app = new Vue({
             this.debounced_update_isosurface();
         },
         opacity: function(val) {
-            this.mesh.material.opacity = val;
+            if (val > 0.0) {
+                var opacity = Math.min(val, 1.0);
+                this.mesh.material.opacity = opacity;
+            }
         },
         color: function(val) {
             // at this moment we do not check whether this is a valid hex
