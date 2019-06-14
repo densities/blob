@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>blob: plot densities directly in your browser</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="css/bulma-checkradio.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
@@ -30,79 +34,86 @@
       <div id="app" v-cloak>
         <div class="container">
 
-          <p>
-            <strong>blob</strong>: plot densities directly in your browser.
-            The <a href="https://github.com/densities/blob">source code</a> is licensed under
-            <a href="https://github.com/densities/blob/blob/gh-pages/LICENSE">AGPL</a>.
-            Contributions to this project are welcome.
-          </p>
+          <div class="row">
+            <p>
+              <strong>blob</strong>: plot densities directly in your browser.
+              The <a href="https://github.com/densities/blob">source code</a> is licensed under
+              <a href="https://github.com/densities/blob/blob/gh-pages/LICENSE">AGPL</a>.
+              Contributions to this project are welcome.
+            </p>
+          </div>
 
-          <div class="columns">
+          <div class="row">
 
-            <div class="column is-2">
-              <div class="file">
-                <label class="file-label">
-                  <input class="file-input" type="file" @change="load_text_file">
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                      cube file
-                    </span>
-                  </span>
-                </label>
+            <div class="col-md-4">
+              <div class="form-group">
+                <input type="file" class="form-control-file" id="cube_file" aria-describedby="file_help" @change="load_text_file">
+                <div v-if="message_info.length > 0">
+                  <small id="file_help" class="form-text text-muted">{{ message_info }}</small>
+                </div>
               </div>
             </div>
 
-            <div class="column is-1" v-if="data_is_loaded">
-              <div class="field">
-                <input class="is-checkradio" id="axes_checkbox" type="checkbox" name="axes_checkbox" checked="checked" v-model="show_axes">
-                <label for="axes_checkbox">axes</label>
+            <div class="col-md-1" v-if="data_is_loaded">
+              <div class="form-group">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="axes_checkbox" checked="" v-model="show_axes">
+                  <label class="custom-control-label" for="axes_checkbox">axes</label>
+                </div>
               </div>
             </div>
 
-            <div class="column is-1" v-if="data_is_loaded">
-              <div class="field">
-                <input class="is-checkradio" id="centers_checkbox" type="checkbox" name="centers_checkbox" checked="checked" v-model="show_centers">
-                <label for="centers_checkbox">centers</label>
+            <div class="col-md-1" v-if="data_is_loaded">
+              <div class="form-group">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="centers_checkbox" checked="" v-model="show_centers">
+                  <label class="custom-control-label" for="centers_checkbox">centers</label>
+                </div>
               </div>
             </div>
 
-            <div class="column is-1" v-if="data_is_loaded">
-              <div class="field">
-                <input class="input is-small" id="isovalue" type="text" placeholder="isovalue" v-model="isovalue">
-                <label for="isovalue">isovalue</label>
+            <div class="col-md-2" v-if="data_is_loaded">
+              <div class="form-group">
+                <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="isovalue" v-model="isovalue">
+                <label class="col-form-label col-form-label-sm" for="isovalue">isovalue</label>
               </div>
             </div>
 
-            <div class="column is-1" v-if="data_is_loaded">
-              <div class="field">
-                <input class="input is-small" id="opacity" type="text" placeholder="opacity" v-model="opacity">
-                <label for="opacity">opacity</label>
+            <div class="col-md-1" v-if="data_is_loaded">
+              <div class="form-group">
+                <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="color" v-model="color">
+                <label class="col-form-label col-form-label-sm" for="color">color</label>
               </div>
             </div>
 
-            <div class="column is-1" v-if="data_is_loaded">
-              <div class="field">
-                <input class="input is-small" id="color" type="text" placeholder="color" v-model="color">
-                <label for="color">color</label>
+            <div class="col-md-1" v-if="data_is_loaded">
+              <div class="form-group">
+                <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="opacity" v-model="opacity">
+                <label class="col-form-label col-form-label-sm" for="opacity">opacity</label>
               </div>
             </div>
 
           </div>
 
-          <div v-if="message_info.length > 0" class="notification is-primary top-buffer">
-            {{ message_info }}
-          </div>
-
-          <div v-if="message_error.length > 0" class="notification is-danger top-buffer">
-            {{ message_error }}
+          <div class="row top-buffer">
+            <div v-if="message_error.length > 0" class="alert alert-danger">
+              {{ message_error }}
+            </div>
           </div>
 
           <script src="js/app.js"></script>
         </div>
       </div>
     </section>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
   </body>
 </html>

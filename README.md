@@ -11,7 +11,7 @@
 - [threex](https://github.com/jeromeetienne/threex): Game Extensions for three.js
 - Marching cubes algorithm based on https://stemkoski.github.io/Three.js/
 - https://vuejs.org for the user interface
-- https://bulma.io and https://github.com/Wikiki/bulma-checkradio for CSS
+- [Bootstrap](https://getbootstrap.com) for CSS
 
 
 ## How to try it out
