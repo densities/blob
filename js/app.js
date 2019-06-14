@@ -57,6 +57,8 @@ var app = new Vue({
             this.debounced_update_isosurface();
         },
         color: function(val) {
+            // at this moment we do not check whether this is a valid hex
+            // we only check the length
             if (val.length == 6) {
                 this.debounced_update_isosurface();
             }
