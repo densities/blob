@@ -156,6 +156,8 @@ var app = new Vue({
     created: function() {
         this.init();
         this.animate();
+
+        // delay updating by 200 ms to prevent it from computing "while typing"
         this.debounced_update_isosurface = _.debounce(this.update_isosurface, 200);
     },
 })
