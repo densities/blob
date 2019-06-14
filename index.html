@@ -53,6 +53,9 @@
                       <a class="nav-link" href="https://github.com/densities/blob" target="_blank">Sources</a>
                     </li>
                     <li class="nav-item">
+                      <a class="nav-link" data-toggle="modal" href="#modal_controls">Controls/shortcuts</a>
+                    </li>
+                    <li class="nav-item">
                       <a class="nav-link" data-toggle="modal" href="#modal_privacy">Privacy</a>
                     </li>
                   </ul>
@@ -60,6 +63,60 @@
               </nav>
             </div>
           </div>
+
+          <!-- controls -->
+          <div class="modal fade" id="modal_controls" tabindex="-1" role="dialog" aria-labelledby="modal_label_controls" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modal_label_controls">Controls/shortcuts</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <table>
+                    <tr>
+                      <th scope="row">
+                        Click and drag
+                      </th>
+                      <td>
+                        Rotate
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        Mouse wheel/ touchpad scroll
+                      </th>
+                      <td>
+                        Zoom (like zooming on Google Maps)
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        Arrow keys
+                      </th>
+                      <td>
+                        Move the origin
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        x
+                      </th>
+                      <td>
+                        Toggle full screen mode on/off
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end controls -->
 
           <!-- privacy -->
           <div class="modal fade" id="modal_privacy" tabindex="-1" role="dialog" aria-labelledby="modal_label_privacy" aria-hidden="true">

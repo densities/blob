@@ -12,6 +12,10 @@ canvas {
   margin-top: 25px;
 }
 
+td {
+  padding: 0px 10px;
+}
+
 body {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
