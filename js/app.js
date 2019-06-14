@@ -54,13 +54,14 @@ var app = new Vue({
             this.debounced_update_isosurface();
         },
         opacity: function(val) {
-            this.debounced_update_isosurface();
+            this.mesh.material.opacity = val;
         },
         color: function(val) {
             // at this moment we do not check whether this is a valid hex
             // we only check the length
             if (val.length == 6) {
-                this.debounced_update_isosurface();
+                var color_hex = parseInt(val, 16);
+                this.mesh.material.color.setHex(color_hex);
             }
         },
     },
