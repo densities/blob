@@ -1,5 +1,3 @@
-
-
 // marching cubes algorithm
 // this function is based on the example
 // https://stemkoski.github.io/Three.js/Marching-Cubes.html (c) Lee Stemkoski
@@ -7,30 +5,47 @@ function create_mesh(data, isovalue, color, opacity) {
 
     isovalue = parseFloat(isovalue);
 
-    let points = [];
-    let vs = data["vs"];
-
-    for (var i = 0; i < vs.length; i++) {
-        points.push(new THREE.Vector3(data["xs"][i], data["ys"][i], data["zs"][i]));
-    }
-
     // number of cubes along a side
-    let num_points_x = data["num_points_x"];
-    let num_points_y = data["num_points_y"];
-    let num_points_z = data["num_points_z"];
-    let num_points_xy = num_points_x * num_points_y;
+    var num_points_x = data["num_points"][0];
+    var num_points_y = data["num_points"][1];
+    var num_points_z = data["num_points"][2];
+    var num_points_xy = num_points_x * num_points_y;
+
+    var origin_x = data["origin"][0];
+    var origin_y = data["origin"][1];
+    var origin_z = data["origin"][2];
+
+    var step_x = data["step"][0];
+    var step_y = data["step"][1];
+    var step_z = data["step"][2];
+
+    var points = [];
+    var x = origin_x;
+    for (var ix = 0; ix < num_points_x; ix++) {
+        x += step_x;
+        var y = origin_y;
+        for (var iy = 0; iy < num_points_y; iy++) {
+            y += step_y;
+            var z = origin_z;
+            for (var iz = 0; iz < num_points_z; iz++) {
+                z += step_z;
+                points.push(new THREE.Vector3(x, y, z));
+            }
+        }
+    }
 
     // Vertices may occur along edges of cube, when the values at the edge's endpoints
     //   straddle the isolevel value.
     // Actual position along edge weighted according to function values.
-    let vlist = new Array(12);
+    var vlist = new Array(12);
 
-    let geometry = new THREE.Geometry();
-    let vertexIndex = 0;
+    var geometry = new THREE.Geometry();
+    var vertexIndex = 0;
 
-    for (let z = 0; z < num_points_z - 1; z++)
-        for (let y = 0; y < num_points_y - 1; y++)
-            for (let x = 0; x < num_points_x - 1; x++) {
+    var vs = data["values"];
+    for (var z = 0; z < num_points_z - 1; z++)
+        for (var y = 0; y < num_points_y - 1; y++)
+            for (var x = 0; x < num_points_x - 1; x++) {
 
                 // index of base point, and also adjacent points on cube
                 var p = x + num_points_x * y + num_points_xy * z;
@@ -75,7 +90,7 @@ function create_mesh(data, isovalue, color, opacity) {
                 // check which edges are crossed, and estimate the point location
                 //    using a weighted average of scalar values at edge endpoints.
                 // store the vertex in an array for use later.
-                let mu = 0.5;
+                var mu = 0.5;
 
                 // bottom of the cube
                 if (bits & 1) {
@@ -132,7 +147,7 @@ function create_mesh(data, isovalue, color, opacity) {
                 }
 
                 // construct triangles -- get correct vertices from triTable.
-                let i = 0;
+                var i = 0;
                 cubeindex <<= 4; // multiply by 16...
                 // "Re-purpose cubeindex into an offset into triTable."
                 //  since each row really isn't a row.
@@ -140,14 +155,14 @@ function create_mesh(data, isovalue, color, opacity) {
                 // the while loop should run at most 5 times,
                 //   since the 16th entry in each row is a -1.
                 while (THREE.triTable[cubeindex + i] != -1) {
-                    let index1 = THREE.triTable[cubeindex + i];
-                    let index2 = THREE.triTable[cubeindex + i + 1];
-                    let index3 = THREE.triTable[cubeindex + i + 2];
+                    var index1 = THREE.triTable[cubeindex + i];
+                    var index2 = THREE.triTable[cubeindex + i + 1];
+                    var index3 = THREE.triTable[cubeindex + i + 2];
 
                     geometry.vertices.push(vlist[index1].clone());
                     geometry.vertices.push(vlist[index2].clone());
                     geometry.vertices.push(vlist[index3].clone());
-                    let face = new THREE.Face3(vertexIndex, vertexIndex + 1, vertexIndex + 2);
+                    var face = new THREE.Face3(vertexIndex, vertexIndex + 1, vertexIndex + 2);
                     geometry.faces.push(face);
 
                     geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1)]);
@@ -162,7 +177,7 @@ function create_mesh(data, isovalue, color, opacity) {
 
     var color_hex = parseInt(color, 16);
 
-    let colorMaterial = new THREE.MeshLambertMaterial({
+    var colorMaterial = new THREE.MeshLambertMaterial({
         color: color_hex,
         side: THREE.DoubleSide,
         opacity: opacity,

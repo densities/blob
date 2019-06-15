@@ -2,17 +2,14 @@
 
 const average = array => array.reduce((a, b) => a + b, 0) / array.length
 
-// move camera according to min/max x, y, and z coordinates of points
-function adjust_camera_position(xs, ys, zs, camera) {
-    var x_max = -Number.MAX_VALUE;
-    var y_max = -Number.MAX_VALUE;
-    var z_max = -Number.MAX_VALUE;
-    for (var i = 0; i < xs.length; i++) {
-        x_max = Math.max(x_max, xs[i]);
-        y_max = Math.max(y_max, ys[i]);
-        z_max = Math.max(z_max, zs[i]);
+// move camera according to the cube extent
+function adjust_camera_position(origin, step, num_points, camera) {
+    var camera_position = [-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE];
+    for (var i = 0; i < 3; i++) {
+        camera_position[i] = Math.max(camera_position[i], Math.abs(origin[i]));
+        camera_position[i] = Math.max(camera_position[i], Math.abs(origin[i] + (num_points[i] - 1) * step[i]));
     }
-    camera.position.set(1.5 * x_max, 1.5 * y_max, 1.5 * z_max);
+    camera.position.set(1.5 * camera_position[0], 1.5 * camera_position[1], 1.5 * camera_position[2]);
 }
 
 var app = new Vue({
@@ -92,8 +89,8 @@ var app = new Vue({
                 if (vm.data["error"].length > 0) {
                     vm.message_error = vm.data["error"];
                 } else {
-                    adjust_camera_position(vm.data["xs"], vm.data["ys"], vm.data["zs"], vm.camera);
-                    vm.isovalue = average(vm.data["vs"]).toFixed(5);
+                    adjust_camera_position(vm.data["origin"], vm.data["step"], vm.data["num_points"], vm.camera);
+                    vm.isovalue = average(vm.data["values"]).toFixed(5);
 
                     var geometry = new THREE.SphereGeometry(0.05, 32, 32);
                     var material = new THREE.MeshBasicMaterial({

@@ -31,53 +31,29 @@ function parse_cube_file(text) {
         centers.push([center_x, center_y, center_z]);
     }
 
-    var xs = [];
-    var ys = [];
-    var zs = [];
-
-    var x = origin_x;
-    for (var ix = 0; ix < num_points_x; ix++) {
-        x += step_x;
-        var y = origin_y;
-        for (var iy = 0; iy < num_points_y; iy++) {
-            y += step_y;
-            var z = origin_z;
-            for (var iz = 0; iz < num_points_z; iz++) {
-                z += step_z;
-                xs.push(x);
-                ys.push(y);
-                zs.push(z);
-            }
-        }
-    }
-
     var il = 0;
-    var vs = [];
+    var values = [];
     for (var line of text.split("\n")) {
         il += 1;
         if (il > 5 + num_centers + 1) {
             for (var v of split_into_words(line)) {
-                vs.push(parseFloat(v));
+                values.push(parseFloat(v));
             }
         }
     }
 
     var error = "";
-    if (vs.length !== (num_points_x * num_points_y * num_points_z)) {
+    if (values.length !== (num_points_x * num_points_y * num_points_z)) {
         error = "Are you sure this cube file is not broken?";
     }
 
     var data = {
         "error": error,
-        "num_centers": num_centers,
         "centers": centers,
-        "num_points_x": num_points_x,
-        "num_points_y": num_points_y,
-        "num_points_z": num_points_z,
-        "xs": xs,
-        "ys": ys,
-        "zs": zs,
-        "vs": vs,
+        "origin": [origin_x, origin_y, origin_z],
+        "step": [step_x, step_y, step_z],
+        "num_points": [num_points_x, num_points_y, num_points_z],
+        "values": values,
     };
 
     return data;
