@@ -11,6 +11,7 @@
 - [threex](https://github.com/jeromeetienne/threex): Game Extensions for three.js
 - Marching cubes algorithm based on https://stemkoski.github.io/Three.js/
 - https://vuejs.org for the user interface
+- [Vue Color](https://github.com/xiaokaike/vue-color)
 - [Bootstrap](https://getbootstrap.com) for CSS
 
 

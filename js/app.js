@@ -12,12 +12,18 @@ function adjust_camera_position(origin, step, num_points, camera) {
     camera.position.set(1.5 * camera_position[0], 1.5 * camera_position[1], 1.5 * camera_position[2]);
 }
 
+var Chrome = window.VueColor.Chrome;
+
 var app = new Vue({
     el: '#app',
     data: {
         isovalue: "0.15",
-        color: 'ff00ff',
-        opacity: 0.6,
+        color: {
+            "hex": "#ff00ff",
+            "source": "hex",
+            "a": 0.6
+        },
+        color_picker_is_open: false,
         axes: new THREE.AxesHelper(100),
         show_axes: true,
         centers: null,
@@ -31,6 +37,9 @@ var app = new Vue({
         message_info: "Please load a cube file before we can begin.",
         message_error: "",
         data_is_loaded: false,
+    },
+    components: {
+        'chrome-picker': Chrome
     },
     watch: {
         show_axes: function(val) {
@@ -50,26 +59,21 @@ var app = new Vue({
         isovalue: function(val) {
             this.debounced_update_isosurface();
         },
-        opacity: function(val) {
-            if (val > 0.0) {
-                var opacity = Math.min(val, 1.0);
-                this.mesh.material.opacity = opacity;
-            }
-        },
         color: function(val) {
-            // at this moment we do not check whether this is a valid hex
-            // we only check the length
-            if (val.length == 6) {
-                var color_hex = parseInt(val, 16);
-                this.mesh.material.color.setHex(color_hex);
-            }
+            var color_hex = parseInt(val.hex.slice(1), 16);
+            this.mesh.material.color.setHex(color_hex);
+            this.mesh.material.opacity = val.a;
         },
     },
     methods: {
+        toggle: function() {
+            this.color_picker_is_open = !this.color_picker_is_open;
+            this.color.source = 'hex';
+        },
         update_isosurface() {
             this.scene.remove(this.mesh);
             var start = new Date().getTime();
-            this.mesh = create_mesh(this.data, this.isovalue, this.color, this.opacity);
+            this.mesh = create_mesh(this.data, this.isovalue, this.color.hex.slice(1), this.color.a);
             var end = new Date().getTime();
             var time = end - start;
             console.log('meshing time: ' + time);
