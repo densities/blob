@@ -34,33 +34,24 @@
       <div id="app" v-cloak>
         <div class="container">
 
-          <div class="row">
+          <div class="row top-buffer">
             <div class="col-md-12">
-              <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <button class="navbar-toggler"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#my_navbar"
-                        aria-controls="my_navbar"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="my_navbar">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                      <a class="nav-link" href="https://github.com/densities/blob" target="_blank">Sources</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="modal" href="#modal_controls">Controls/shortcuts</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="modal" href="#modal_privacy">Privacy</a>
-                    </li>
-                  </ul>
+              <div class="form-group">
+                <span class="btn btn-primary btn-file">
+                  cube file
+                  <input type="file" class="form-control-file" id="cube_file" aria-describedby="file_help" @change="load_text_file">
+                </span>
+
+                <a data-toggle="modal" href="#modal_controls">controls and shortcuts</a> |
+                <a href="https://github.com/densities/blob" target="_blank">source code</a> |
+                <a data-toggle="modal" href="#modal_privacy">privacy</a>
+
+                <div v-if="message_info.length > 0">
+                  <small id="file_help" class="form-text text-muted">{{ message_info }}</small>
                 </div>
-              </nav>
+              </div>
+
             </div>
           </div>
 
@@ -154,29 +145,19 @@
 
           <div class="row">
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <input type="file" class="form-control-file" id="cube_file" aria-describedby="file_help" @change="load_text_file">
-                <div v-if="message_info.length > 0">
-                  <small id="file_help" class="form-text text-muted">{{ message_info }}</small>
+            <div class="col-md-1">
+              <div v-if="data_is_loaded">
+                <div class="form-group">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="axes_checkbox" checked="" v-model="show_axes">
+                    <label class="custom-control-label" for="axes_checkbox">axes</label>
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="col-md-1" v-if="data_is_loaded">
-              <div class="form-group">
-                <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="axes_checkbox" checked="" v-model="show_axes">
-                  <label class="custom-control-label" for="axes_checkbox">axes</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-1" v-if="data_is_loaded">
-              <div class="form-group">
-                <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="centers_checkbox" checked="" v-model="show_centers">
-                  <label class="custom-control-label" for="centers_checkbox">centers</label>
+                <div class="form-group">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="centers_checkbox" checked="" v-model="show_centers">
+                    <label class="custom-control-label" for="centers_checkbox">centers</label>
+                  </div>
                 </div>
               </div>
             </div>
