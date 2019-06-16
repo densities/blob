@@ -88,6 +88,12 @@ var app = new Vue({
             const file = ev.target.files[0];
             const reader = new FileReader();
 
+            // if we load a new file, make sure we remove the old molecule
+            if (this.centers !== null) {
+                this.scene.remove(this.centers);
+                this.centers = null;
+            }
+
             reader.onload = function(e) {
                 vm.data = parse_cube_file(e.target.result);
                 if (vm.data["error"].length > 0) {
