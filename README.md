@@ -47,3 +47,5 @@ helps to sharpen the goal and to avoid surprises.
 ## Implementation notes
 
 For the CUBE file format we follow [this specification](https://h5cube-spec.readthedocs.io/en/latest/cubeformat.html).
+
+The starting isovalue is the mean of absolute values (better definition is welcome).

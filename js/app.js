@@ -1,6 +1,13 @@
 'use strict';
 
-const average = array => array.reduce((a, b) => a + b, 0) / array.length
+function starting_isovalue(values) {
+    var result = 0.0;
+    for (var value of values) {
+        result += Math.abs(value);
+    }
+    result /= values.length;
+    return result.toFixed(5);
+}
 
 // move camera according to the cube extent
 function adjust_camera_position(origin, step, num_points, camera) {
@@ -100,7 +107,7 @@ var app = new Vue({
                     vm.message_error = vm.data["error"];
                 } else {
                     adjust_camera_position(vm.data["origin"], vm.data["step"], vm.data["num_points"], vm.camera);
-                    vm.isovalue = average(vm.data["values"]).toFixed(5);
+                    vm.isovalue = starting_isovalue(vm.data["values"]);
 
                     var geometry = new THREE.SphereGeometry(0.05, 32, 32);
                     var material = new THREE.MeshBasicMaterial({
