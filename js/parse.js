@@ -43,14 +43,8 @@ function parse_cube_file(text) {
     }
 
     var error = "";
-    if (values.length < (num_points_x * num_points_y * num_points_z)) {
-        error = "Are you sure this cube file is not broken? Found fewer numbers than expected.";
-    }
-    if (values.length > (num_points_x * num_points_y * num_points_z)) {
-        error = "Are you sure this cube file is not broken? Found more numbers than expected.";
-    }
-    if (num_centers < 0) {
-        error = "Are you sure this cube file is not broken? Negative number of centers.";
+    if (values.length !== (num_points_x * num_points_y * num_points_z)) {
+        error = "Are you sure this cube file is not broken?";
     }
 
     var data = {
