@@ -8,6 +8,13 @@ function parse_cube_file(text) {
     var words = split_into_words(lines[2]);
     var num_centers = parseInt(words[0]);
 
+    // https://h5cube-spec.readthedocs.io/en/latest/cubeformat.html#cubeformat-dset-ids
+    var dset_ids_present = false;
+    if (num_centers < 0) {
+        dset_ids_present = true;
+        num_centers = -num_centers;
+    }
+
     var origin_x = parseFloat(words[1]);
     var origin_y = parseFloat(words[2]);
     var origin_z = parseFloat(words[3]);
@@ -31,11 +38,28 @@ function parse_cube_file(text) {
         centers.push([center_x, center_y, center_z]);
     }
 
+    var num_lines_before_values = 5 + num_centers + 1;
+
+    // we take care of these
+    // https://h5cube-spec.readthedocs.io/en/latest/cubeformat.html#cubeformat-dset-ids
+    // but for the moment they are discarded and not used
+    if (dset_ids_present) {
+        words = split_into_words(lines[num_lines_before_values]);
+        var num_identifiers = parseInt(words[0]);
+        var m = words.length - 1;
+        num_lines_before_values += 1;
+        while (m < num_identifiers) {
+            words = split_into_words(lines[num_lines_before_values]);
+            m += words.length;
+            num_lines_before_values += 1;
+        }
+    }
+
     var il = 0;
     var values = [];
-    for (var line of text.split("\n")) {
+    for (var line of lines) {
         il += 1;
-        if (il > 5 + num_centers + 1) {
+        if (il > num_lines_before_values) {
             for (var v of split_into_words(line)) {
                 values.push(parseFloat(v));
             }

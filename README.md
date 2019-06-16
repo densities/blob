@@ -42,3 +42,8 @@ helps to sharpen the goal and to avoid surprises.
 ## How to cite this project
 
 [We will add this information soon, until then please refer to this URL.]
+
+
+## Implementation notes
+
+For the CUBE file format we follow [this specification](https://h5cube-spec.readthedocs.io/en/latest/cubeformat.html).
