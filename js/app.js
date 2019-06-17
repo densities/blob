@@ -168,6 +168,11 @@ var app = new Vue({
             this.camera.position.set(20.0, 20.0, 20.0);
             this.camera.lookAt(this.scene.position);
 
+            // light position and color
+            var light = new THREE.PointLight(0xffffff);
+            light.position.set(0.0, 0.0, 0.0);
+            this.camera.add(light);
+
             // set up renderer
             this.renderer = new THREE.WebGLRenderer();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -182,11 +187,6 @@ var app = new Vue({
 
             // orbit controls: zoom and pan
             this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-
-            // light position and color
-            var light = new THREE.PointLight(0xffffff);
-            light.position.set(0, 10, 0);
-            this.scene.add(light);
 
             // axes
             this.scene.add(this.axes);
