@@ -89,8 +89,10 @@ var app = new Vue({
             console.log('show meshes: ' + this.show_meshes);
             let isovalues = [this.isovalue, -this.isovalue];
             for (var i = 0; i < 2; i++) {
-                if (this.show_meshes[i]) {
+                if (this.meshes[i] !== null) {
                     this.scene.remove(this.meshes[i]);
+                }
+                if (this.show_meshes[i]) {
                     var start = new Date().getTime();
                     Vue.set(this.meshes, i, create_mesh(this.data, isovalues[i], this.colors[i].hex.slice(1), this.colors[i].a));
                     var end = new Date().getTime();
