@@ -56,7 +56,7 @@
               </div>
 
             </div>
-          </div>
+          </div> <!-- row -->
 
           <!-- controls -->
           <div class="modal fade" id="modal_controls" tabindex="-1" role="dialog" aria-labelledby="modal_label_controls" aria-hidden="true">
@@ -146,38 +146,43 @@
           </div>
           <!-- end privacy -->
 
-          <div class="row">
+          <div class="row" v-if="data_is_loaded">
 
-            <div class="col-md-2">
-              <div v-if="data_is_loaded">
-                <div class="form-group">
-                  <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="axes_checkbox" checked="" v-model="show_axes">
-                    <label class="custom-control-label" for="axes_checkbox">axes</label>
-                  </div>
+            <div class="col-2">
+              <div class="form-group">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="axes_checkbox" checked="" v-model="show_axes">
+                  <label class="custom-control-label" for="axes_checkbox">axes</label>
                 </div>
-                <div class="form-group">
-                  <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="centers_checkbox" checked="" v-model="show_centers">
-                    <label class="custom-control-label" for="centers_checkbox">centers</label>
-                  </div>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="centers_checkbox" checked="" v-model="show_centers">
+                  <label class="custom-control-label" for="centers_checkbox">centers</label>
                 </div>
               </div>
             </div>
 
-            <div class="col-md-2" v-if="data_is_loaded">
+            <div class="col-2">
               <div class="form-group">
-                <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="isovalue" v-model="isovalue">
+                <input class="form-control form-control-sm"
+                       type="text" placeholder=".form-control-sm" id="isovalue" v-model="isovalue">
                 <label class="col-form-label col-form-label-sm" for="isovalue">isovalue</label>
               </div>
             </div>
 
-            <div class="col-md-2" v-if="data_is_loaded">
-              <button class="btn btn-primary btn-sm" v-on:click="toggle" v-bind:style="{ background: color.hex }">{{ color.hex }}</button>
-              <chrome-picker v-show="color_picker_is_open" v-model="color" ></chrome-picker>
+            <div class="col">
+              <div v-for="(n, i) in 2">
+                <div v-if="show_meshes[i]">
+                  <button class="btn btn-primary btn-sm"
+                          v-on:click="toggle_color_picker(i)"
+                          v-bind:style="{ background: colors[i].hex }">{{ colors[i].hex }}</button>
+                  <chrome-picker v-show="color_picker_is_open[i]" v-model="colors[i]" ></chrome-picker>
+                </div>
+              </div>
             </div>
 
-          </div>
+          </div> <!-- row -->
 
           <div class="row top-buffer">
             <div v-if="message_error.length > 0" class="alert alert-danger">

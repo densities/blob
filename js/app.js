@@ -24,19 +24,24 @@ var Chrome = window.VueColor.Chrome;
 var app = new Vue({
     el: '#app',
     data: {
-        isovalue: "0.15",
-        color: {
-            "hex": "#ff00ff",
+        isovalue: 0.15,
+        colors: [{
+            "hex": "#ff0000",
             "source": "hex",
             "a": 0.6
-        },
-        color_picker_is_open: false,
+        }, {
+            "hex": "#0000ff",
+            "source": "hex",
+            "a": 0.6
+        }],
+        color_picker_is_open: [false, false],
+        meshes: [null, null],
+        show_meshes: [false, false],
         axes: new THREE.AxesHelper(100),
         show_axes: true,
         centers: null,
         show_centers: true,
         data: null,
-        mesh: null,
         scene: null,
         camera: null,
         renderer: null,
@@ -64,27 +69,36 @@ var app = new Vue({
             }
         },
         isovalue: function(val) {
-            this.debounced_update_isosurface();
+            this.debounced_update_isosurfaces();
         },
-        color: function(val) {
-            var color_hex = parseInt(val.hex.slice(1), 16);
-            this.mesh.material.color.setHex(color_hex);
-            this.mesh.material.opacity = val.a;
+        colors: function(val) {
+            for (var i = 0; i < 2; i++) {
+                if (this.show_meshes[i]) {
+                    this.meshes[i].material.color.setHex(parseInt(val[i].hex.slice(1), 16));
+                    this.meshes[i].material.opacity = val[i].a;
+                }
+            }
         },
     },
     methods: {
-        toggle: function() {
-            this.color_picker_is_open = !this.color_picker_is_open;
-            this.color.source = 'hex';
+        toggle_color_picker: function(i) {
+            Vue.set(this.color_picker_is_open, i, !this.color_picker_is_open[i])
+            this.colors[i].source = 'hex';
         },
-        update_isosurface() {
-            this.scene.remove(this.mesh);
-            var start = new Date().getTime();
-            this.mesh = create_mesh(this.data, this.isovalue, this.color.hex.slice(1), this.color.a);
-            var end = new Date().getTime();
-            var time = end - start;
-            console.log('meshing time: ' + time);
-            this.scene.add(this.mesh);
+        update_isosurfaces() {
+            console.log('show meshes: ' + this.show_meshes);
+            let isovalues = [this.isovalue, -this.isovalue];
+            for (var i = 0; i < 2; i++) {
+                if (this.show_meshes[i]) {
+                    this.scene.remove(this.meshes[i]);
+                    var start = new Date().getTime();
+                    Vue.set(this.meshes, i, create_mesh(this.data, isovalues[i], this.colors[i].hex.slice(1), this.colors[i].a));
+                    var end = new Date().getTime();
+                    var time = end - start;
+                    console.log('spent ' + time + ' ms on mesh ' + i);
+                    this.scene.add(this.meshes[i]);
+                }
+            }
         },
         load_text_file(ev) {
             this.message_info = "";
@@ -108,6 +122,16 @@ var app = new Vue({
                 } else {
                     adjust_camera_position(vm.data["origin"], vm.data["step"], vm.data["num_points"], vm.camera);
                     vm.isovalue = starting_isovalue(vm.data["values"]);
+
+                    let positive_values = vm.data["values"].filter(val => {
+                        return val > Number.MIN_VALUE;
+                    });
+                    Vue.set(vm.show_meshes, 0, (positive_values.length > 0));
+
+                    let negative_values = vm.data["values"].filter(val => {
+                        return -val > Number.MIN_VALUE;
+                    });
+                    Vue.set(vm.show_meshes, 1, (negative_values.length > 0));
 
                     var geometry = new THREE.SphereGeometry(0.05, 32, 32);
                     var material = new THREE.MeshBasicMaterial({
@@ -178,6 +202,6 @@ var app = new Vue({
         this.animate();
 
         // delay updating by 200 ms to prevent it from computing "while typing"
-        this.debounced_update_isosurface = _.debounce(this.update_isosurface, 200);
+        this.debounced_update_isosurfaces = _.debounce(this.update_isosurfaces, 200);
     },
 })
