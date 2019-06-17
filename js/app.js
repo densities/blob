@@ -135,7 +135,7 @@ var app = new Vue({
                     });
                     Vue.set(vm.show_meshes, 1, (negative_values.length > 0));
 
-                    var geometry = new THREE.SphereGeometry(0.05, 32, 32);
+                    var geometry = new THREE.SphereGeometry(0.10, 32, 32);
                     var material = new THREE.MeshBasicMaterial({
                         color: 0x000000
                     });
