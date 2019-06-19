@@ -28,6 +28,13 @@
 - Right now only understands Gaussian cube file format but later we can add support for other formats.
 
 
+## Roadmap
+
+- Show the molecular structure instead of only centers.
+- Speed up the meshing.
+- Integration with Jupyter notebooks.
+
+
 ## How you can contribute
 
 Please [suggest ideas](https://github.com/densities/blob/issues) and
