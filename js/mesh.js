@@ -1,3 +1,21 @@
+function array_min(a) {
+    r = Number.MAX_VALUE;
+    for (const element of a) {
+        r = (element < r ? element : r);
+    }
+    return r;
+}
+
+
+function array_max(a) {
+    r = -Number.MAX_VALUE;
+    for (const element of a) {
+        r = (element > r ? element : r);
+    }
+    return r;
+}
+
+
 // marching cubes algorithm
 // this function is based on the example
 // https://stemkoski.github.io/Three.js/Marching-Cubes.html (c) Lee Stemkoski
@@ -68,6 +86,12 @@ function create_mesh(data, isovalue, color, opacity) {
                     vs[pyz],
                     vs[pxyz],
                 ]
+
+                // if all corners have smaller value than isovalue, skip this voxel
+                //    if (array_max(values) < isovalue) continue;
+
+                // if all corners have larger value than isovalue, skip this voxel
+                //    if (array_min(values) > isovalue) continue;
 
                 // place a "1" in bit positions corresponding to vertices whose
                 // isovalue is less than given constant.
