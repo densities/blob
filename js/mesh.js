@@ -9,7 +9,7 @@ function create_mesh(data, isovalue, color, opacity) {
     var num_points_x = data["num_points"][0];
     var num_points_y = data["num_points"][1];
     var num_points_z = data["num_points"][2];
-    var num_points_xy = num_points_x * num_points_y;
+    var num_points_yz = num_points_y * num_points_z;
 
     var origin_x = data["origin"][0];
     var origin_y = data["origin"][1];
@@ -48,14 +48,14 @@ function create_mesh(data, isovalue, color, opacity) {
             for (var x = 0; x < num_points_x - 1; x++) {
 
                 // index of base point, and also adjacent points on cube
-                var p = x + num_points_x * y + num_points_xy * z;
-                var px = p + 1;
-                var py = p + num_points_x;
-                var pxy = py + 1;
-                var pz = p + num_points_xy;
-                var pxz = px + num_points_xy;
-                var pyz = py + num_points_xy;
-                var pxyz = pxy + num_points_xy;
+                var p = z + num_points_z * y + num_points_yz * x;
+                var pz = p + 1;
+                var py = p + num_points_z;
+                var pyz = py + 1;
+                var px = p + num_points_yz;
+                var pxz = pz + num_points_yz;
+                var pxy = py + num_points_yz;
+                var pxyz = pyz + num_points_yz;
 
                 // store scalar values corresponding to vertices
                 var values = [
